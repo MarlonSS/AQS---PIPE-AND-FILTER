@@ -5,7 +5,11 @@
  */
 package com.ifba.aqs.tabela;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import org.jsoup.nodes.Element;
 
 /**
@@ -15,19 +19,15 @@ import org.jsoup.nodes.Element;
 public class TableBuild {
 
     private String[][] arr = new String[1851][21];
-    int aux1;
+    private List<BigDecimal> list = new ArrayList<>();
+    private List<String> listUF = new ArrayList<>();
+    private int aux1;
+    private BigDecimal big = new BigDecimal("0.0");
+    private String var = "";
 
     public TableBuild() {
         aux1 = 0;
 
-    }
-
-    public String[][] getArr() {
-        return arr;
-    }
-
-    public void setArr(String[][] arr) {
-        this.arr = arr;
     }
 
     public void insertInto(String str, int i, int j) {
@@ -43,25 +43,49 @@ public class TableBuild {
                 aux1++;
             }
         } catch (Exception e) {
-            
+
         }
     }
 
     public void build() {
         for (int i = 0; i < 1851; i++) {
             for (int j = 0; j < 21; j++) {
-
+                System.out.print(arr[i][j] + " ");
             }
+            System.out.println();
 
         }
 
     }
 
-    private void convert() {
+    public List<BigDecimal> getList() {
+        return list;
+    }
+
+    public void convert() {
         for (int i = 0; i < 1851; i++) {
-            //   arr[i][12];
+            var = arr[i][12].replace(".", "");
+            var = var.replace(",", ".");
+            big = new BigDecimal(var);
+            big.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+            list.add(big);
         }
 
+    }
+
+    public void convertUF() {
+        for (int i = 0; i < 1851; i++) {
+            if (arr[i][11].equals("") || arr[i][11] == null) {
+                listUF.add(" ");
+            } else {
+                listUF.add(arr[i][11]);
+            }
+
+        }
+    }
+
+    public List<String> getListUF() {
+        return listUF;
     }
 
 }

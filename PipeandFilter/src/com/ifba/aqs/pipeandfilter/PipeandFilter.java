@@ -10,7 +10,10 @@ import com.ifba.aqs.operacoes.ConcursoSena;
 import com.ifba.aqs.tabela.TableBuild;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,23 +31,26 @@ public class PipeandFilter {
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
 
-        File file = new File("C:\\Users\\Questor206\\Documents\\NetBeansProjects\\PipeandFilter\\src\\com\\ifba\\aqs\\pipeandfilter\\Resultados Mega Sena.HTM");
+        File file = new File("C:\\Users\\Black_Hammer\\Documents\\NetBeansProjects\\AQSPipeandFilter\\PipeandFilter\\src\\com\\ifba\\aqs\\pipeandfilter\\Resultados Mega Sena.HTM");
         Document doc = Jsoup.parse(file, null);
         Element table = doc.select("table").first();
         Iterator<Element> ite = table.select("td").iterator();
         TableBuild tabbuild = new TableBuild();
         Concurso sena = new ConcursoSena();
+        List<BigDecimal> list = new ArrayList<>();
+        List<String> listUF = new ArrayList<>();
 
         tabbuild.buildTable(ite);
-        tabbuild.build();
+        // tabbuild.build();
 
         // String[][] array = new String[1851][21];
-        sena.setList(tabbuild.getArr());
+        //sena.setList(tabbuild.getArr());
+        tabbuild.convert();
+        tabbuild.convertUF();
 
-        sena.order();
-
-        System.out.println("Soma das premiações: " + sena.valueTop());
-        System.out.println("Vezes que o prêmio foi maior que 40 mi:" + sena.valueTop40mi());
-        System.out.println("Vezes que o prêmio foi maior que 40 mi e para Distrito Federal:" + sena.returnDF(tabbuild.getArr()));
+        System.out.println(tabbuild.getList());
+        System.out.println("Soma das premiações: " + sena.valueTop(tabbuild.getList()));
+        System.out.println("Vezes que o prêmio foi maior que 40 mi:" + sena.valueTop40mi(tabbuild.getList()));
+        System.out.println("Vezes que o prêmio foi maior que 40 mi e para Distrito Federal:" + sena.returnDF(tabbuild.getListUF(), tabbuild.getList()));
     }
 }

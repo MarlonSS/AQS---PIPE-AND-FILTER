@@ -5,6 +5,7 @@
  */
 package com.ifba.aqs.operacoes;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,16 +16,16 @@ import java.util.List;
  */
 public abstract class Concurso {
 
-    protected List<Double> list = new ArrayList<>();
+    protected List<BigDecimal> list = new ArrayList<>();
 
     abstract public void setList(String[][] array);
 
-    abstract public List<Double> order();
+    abstract public List<BigDecimal> order(List<BigDecimal> list);
 
-    abstract public String valueTop();
+    abstract public BigDecimal valueTop(List<BigDecimal> list);
 
-    abstract public int valueTop40mi();
+    abstract public int valueTop40mi(List<BigDecimal> list);
 
-    abstract public int returnDF(String[][] array);
+    abstract public int returnDF(List<String> listuf, List<BigDecimal> list);
 
 }

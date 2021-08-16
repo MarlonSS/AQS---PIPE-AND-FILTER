@@ -5,6 +5,7 @@
  */
 package com.ifba.aqs.operacoes;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,45 +17,55 @@ import java.util.List;
  */
 public class ConcursoSena extends Concurso {
 
-    private List<Double> list = new ArrayList<>();
+    private List<BigDecimal> list = new ArrayList<>();
     private HashMap<String, Double> map = new HashMap<>();
     private Double[] doub = new Double[1851];
+    private BigDecimal money = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_UP);
+    private int cont = 0;
 
     @Override
     public void setList(String[][] array) {
         String var = null;
         for (int i = 0; i < 1851; i++) {
-            var = array[i][12].replace(",", ".");
+            var = array[i][12].replace(",", "");
             var = var.replace(".", "");
-            list.add(Double.parseDouble(var));
-            doub[i] = Double.parseDouble(var);
+            money = new BigDecimal(var);
+
+            list.add(money);
 
         }
 
     }
 
-    @Override
-    public List<Double> order() {
-
-        Collections.sort(list);
+    public List<BigDecimal> getList() {
         return list;
     }
 
     @Override
-    public String valueTop() {
-        String resultado;
-        double soma = 0.00;
-        for (Double d : list) {
-            soma = soma + d;
+    public List<BigDecimal> order(List<BigDecimal> list) {
+        for(BigDecimal d : list){
+            this.list.add(d);
         }
-        return resultado = String.format("%.2f", soma);
+        Collections.sort(this.list);
+        return this.list;
     }
 
     @Override
-    public int valueTop40mi() {
-        int cont = 0;
-        for (Double d : list) {
-            if (d > 40000000.00	) {
+    public BigDecimal valueTop(List<BigDecimal> list) {
+        String resultado;
+        BigDecimal soma = BigDecimal.ZERO;
+        for (BigDecimal d : list) {
+            soma = soma.add(d);
+        }
+
+        return soma;
+    }
+
+    @Override
+    public int valueTop40mi(List<BigDecimal> list) {
+        cont = 0;
+        for (BigDecimal d : list) {
+            if (d.compareTo(new BigDecimal(40000000.00)) == 1) {
                 cont++;
             }
         }
@@ -62,16 +73,13 @@ public class ConcursoSena extends Concurso {
     }
 
     @Override
-    public int returnDF(String[][] array) {
-        int cont = 0, cont2 = 0;
-        
+    public int returnDF(List<String> listuf, List<BigDecimal> list) {
+        cont = 0;
 
         for (int i = 0; i < 1851; i++) {
-            if (list.get(i) > 40000000.00 && array[i][11].equals("DF")) {
-
-                System.out.print(" "+array[i][11]+"  "+(Double.valueOf(list.get(i)).longValue()));
+            System.out.println(listuf.get(i) + "   " + list.get(i));
+            if (list.get(i).compareTo(new BigDecimal(40000000.00)) == 1 && listuf.get(i).equals("DF")) {
                 cont++;
-
             }
         }
         return cont;
