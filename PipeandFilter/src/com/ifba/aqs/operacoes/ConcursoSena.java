@@ -12,16 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * ESTA CLASSE MANIPULA OS DADOS DA LISTA /THIS CLASS MANIPULATES THE LIST DATA
  *
  * @author Questor206
  */
 public class ConcursoSena extends Concurso {
 
     private List<BigDecimal> list = new ArrayList<>();
+    private List<BigDecimal> listaux = new ArrayList<>();
     private HashMap<String, Double> map = new HashMap<>();
     private Double[] doub = new Double[1851];
     private BigDecimal money = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_UP);
     private int cont = 0;
+    private String[][] arr = new String[1851][21];
 
     @Override
     public void setList(String[][] array) {
@@ -43,11 +46,33 @@ public class ConcursoSena extends Concurso {
 
     @Override
     public List<BigDecimal> order(List<BigDecimal> list) {
-        for(BigDecimal d : list){
+        for (BigDecimal d : list) {
             this.list.add(d);
         }
         Collections.sort(this.list);
         return this.list;
+    }
+
+    public String[][] orderBy(String[][] array) {
+        String var = null;
+        int var2 = 0;
+        try {
+            while (var2 < 1851) {
+                for (int m = 0; m < 1851; m++) {
+                    var = array[m][12].replace(".", "");
+                    var = var.replace(",", ".");
+                    if (this.list.get(var2).toString().equals(var)) {
+                        for (int j = 0; j < 21; j++) {
+                            this.arr[var2][j] = array[m][j];
+                        }
+                        var2++;
+                    }
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        return this.arr;
     }
 
     @Override
@@ -77,7 +102,6 @@ public class ConcursoSena extends Concurso {
         cont = 0;
 
         for (int i = 0; i < 1851; i++) {
-            System.out.println(listuf.get(i) + "   " + list.get(i));
             if (list.get(i).compareTo(new BigDecimal(40000000.00)) == 1 && listuf.get(i).equals("DF")) {
                 cont++;
             }

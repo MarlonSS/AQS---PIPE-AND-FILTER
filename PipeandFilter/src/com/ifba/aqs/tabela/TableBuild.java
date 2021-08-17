@@ -13,7 +13,8 @@ import java.util.List;
 import org.jsoup.nodes.Element;
 
 /**
- *
+ * ESTA TABELA PREENCHE UM ARRAY COM OS DADOS / THIS TABLE FILL IN AN ARRAY WITH THE DATA
+
  * @author Questor206
  */
 public class TableBuild {
@@ -34,7 +35,8 @@ public class TableBuild {
         arr[i][j] = str;
     }
 
-    public void buildTable(Iterator<Element> list) {
+    //METODO CONTROI O ARRAY / METHOD BUILD THE ARRAY
+    public void buildTable(Iterator<Element> list) { 
         try {
             while (list.hasNext()) {
                 for (int i = 0; i < 21; i++) {
@@ -45,17 +47,6 @@ public class TableBuild {
         } catch (Exception e) {
 
         }
-    }
-
-    public void build() {
-        for (int i = 0; i < 1851; i++) {
-            for (int j = 0; j < 21; j++) {
-                System.out.print(arr[i][j] + " ");
-            }
-            System.out.println();
-
-        }
-
     }
 
     public List<BigDecimal> getList() {
@@ -86,6 +77,10 @@ public class TableBuild {
 
     public List<String> getListUF() {
         return listUF;
+    }
+
+    public String[][] getArr() {
+        return arr;
     }
 
 }

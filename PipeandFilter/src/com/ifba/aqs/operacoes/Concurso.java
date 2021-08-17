@@ -27,5 +27,6 @@ public abstract class Concurso {
     abstract public int valueTop40mi(List<BigDecimal> list);
 
     abstract public int returnDF(List<String> listuf, List<BigDecimal> list);
+    abstract public String[][] orderBy(String[][] array);
 
 }
