@@ -19,9 +19,6 @@ import java.util.List;
 public class ConcursoSena extends Concurso {
 
     private List<BigDecimal> list = new ArrayList<>();
-    private List<BigDecimal> listaux = new ArrayList<>();
-    private HashMap<String, Double> map = new HashMap<>();
-    private Double[] doub = new Double[1851];
     private BigDecimal money = new BigDecimal(0.00).setScale(2, BigDecimal.ROUND_HALF_UP);
     private int cont = 0;
     private String[][] arr = new String[1851][21];
@@ -33,11 +30,8 @@ public class ConcursoSena extends Concurso {
             var = array[i][12].replace(",", "");
             var = var.replace(".", "");
             money = new BigDecimal(var);
-
             list.add(money);
-
         }
-
     }
 
     public List<BigDecimal> getList() {

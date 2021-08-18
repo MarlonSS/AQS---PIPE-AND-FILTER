@@ -13,8 +13,9 @@ import java.util.List;
 import org.jsoup.nodes.Element;
 
 /**
- * ESTA TABELA PREENCHE UM ARRAY COM OS DADOS / THIS TABLE FILL IN AN ARRAY WITH THE DATA
-
+ * ESTA TABELA PREENCHE UM ARRAY COM OS DADOS / THIS TABLE FILL IN AN ARRAY WITH
+ * THE DATA
+ *
  * @author Questor206
  */
 public class TableBuild {
@@ -36,14 +37,31 @@ public class TableBuild {
     }
 
     //METODO CONTROI O ARRAY / METHOD BUILD THE ARRAY
-    public void buildTable(Iterator<Element> list) { 
+    public void buildTable(List<Element> list) {
+
+        List<String> l = new ArrayList<>();
+        int cont = 0;
+        int cont2 = 0;
+        
+        for (int j = 1; j <= 1851; j++) {
+            l.add(Integer.toString(j));
+        }
+
         try {
-            while (list.hasNext()) {
-                for (int i = 0; i < 21; i++) {
-                    arr[aux1][i] = list.next().text();
+            while (cont2 <= l.size()) {
+                if (l.get(aux1).equals(list.get(cont).text())) {
+                    for (int i = 0; i < 21; i++) {
+                        arr[aux1][i] = list.get(cont).text();
+                        cont++;
+                    }
+                    aux1++;
+                    cont2++;
                 }
-                aux1++;
+                if (!l.get(aux1).equals(list.get(cont).text())) {
+                    cont++;
+                }
             }
+
         } catch (Exception e) {
 
         }

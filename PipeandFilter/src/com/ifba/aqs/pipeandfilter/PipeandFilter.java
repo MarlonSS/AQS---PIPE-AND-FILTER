@@ -32,35 +32,41 @@ public class PipeandFilter {
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
 
-        
-        /* Instacias abaixo para tratar o arquivo / instances below to handle the file*/ 
+        /* Instacias abaixo para tratar o arquivo / instances below to handle the file*/
         File file = new File("C:\\Users\\Questor206\\Documents\\NetBeansProjects\\AQS---PIPE-AND-FILTER\\PipeandFilter\\src\\com\\ifba\\aqs\\pipeandfilter\\Resultados Mega Sena.HTM");
-        Document doc = Jsoup.parse(file, null);
-        Element table = doc.select("table").first();
-        Iterator<Element> ite = table.select("td").iterator();
+        Document doc = Jsoup.parse(file, null); //Instacia doc com o arquivo html no parse jsoup / Instantiate doc with html file in parse jsoup
+        Element table = doc.select("table").first(); // Preenche table element com as informações dos itens na tag table / Fills table element with item information in tag table
+        Iterator<Element> ite = table.select("td").iterator(); // Instancia um iterator ite com dados da tag td /Instantiate an ite iterator with data from the tag td
         TableBuild tabbuild = new TableBuild();
         Concurso sena = new ConcursoSena();
-        List<BigDecimal> list = new ArrayList<>();
-        List<String> listUF = new ArrayList<>();
+        List<Element> list = new ArrayList<>();
         String[][] array = new String[1851][21];
 
-        tabbuild.buildTable(ite); //Passa o Iterador para construir a tabela no array / Pass iterator to build array table
-               
+        buildList(ite,list);
+        tabbuild.buildTable(list); //Passa o Iterador para construir a tabela no array / Pass iterator to build array table
+
         tabbuild.convert(); //Extrai os valores da mega para um list /Extracts values from array to a list
         tabbuild.convertUF(); //Extrai os valores da uf para um list /Extracts values from array to a list
         sena.order(tabbuild.getList()); //ordena uma lista / order a list
         array = sena.orderBy(tabbuild.getArr());
-        
+
         System.out.println("Ordenação por prêmio: \n");
         for (int i = 0; i < 1851; i++) {
             for (int j = 0; j < 21; j++) {
-               System.out.print(array[i][j]+"  ");
+                System.out.print(array[i][j] + "  ");
             }
             System.out.println();
         }
 
-         System.out.println("Soma das premiações: " + sena.valueTop(tabbuild.getList()));
-         System.out.println("Vezes que o prêmio foi maior que 40 mi:" + sena.valueTop40mi(tabbuild.getList()));
+        System.out.println("Soma das premiações: " + sena.valueTop(tabbuild.getList()));
+        System.out.println("Vezes que o prêmio foi maior que 40 mi:" + sena.valueTop40mi(tabbuild.getList()));
         System.out.println("Vezes que o prêmio foi maior que 40 mi e para Distrito Federal:" + sena.returnDF(tabbuild.getListUF(), tabbuild.getList()));
+    }
+
+    public static void buildList(Iterator<Element> ite, List<Element> list) {
+        while (ite.hasNext()) {
+            list.add(ite.next());
+        }
+
     }
 }
